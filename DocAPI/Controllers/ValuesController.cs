@@ -13,17 +13,8 @@ namespace DocAPI.Controllers
         // GET api/values
         public IEnumerable<string> Get()
         {
-
-            //string tempFolder = System.Web.Hosting.HostingEnvironment.MapPath("~/"); //"C:\\CodeGames\\TempDocuments";
-            //DocumentController docController = new DocumentController();
-            //docController.SelectStorage(DocumentStorage.Dropbox);
-            //docController.SetStoragePath("/");
-            //docController.SetFilePath(tempFolder);
-            //string fileList = docController.GetFiles();
-            //docController.Download("Get Started with Dropbox.pdf");
-            //docController.SelectStorage(DocumentStorage.GoogleDrive);
-            //docController.Upload("Get Started with Dropbox.pdf");
-            string rootPath = string.Empty; 
+            string rootPath = string.Empty;
+            string fileList = string.Empty;
             try
             {
                 rootPath = System.Web.Hosting.HostingEnvironment.MapPath("~/");
@@ -32,23 +23,14 @@ namespace DocAPI.Controllers
                 docController.SelectStorage(DocumentStorage.Dropbox);
                 docController.SetStoragePath("/");
                 docController.SetFilePath(tempFolder);
-                string fileList = docController.GetFiles();
-                docController.Download("Get Started with Dropbox.pdf");
-                docController.SelectStorage(DocumentStorage.GoogleDrive);
-                docController.Upload("Get Started with Dropbox.pdf");
+                fileList = docController.GetFiles();
             }
             catch (Exception ex)
             {
                 return new string[] { ex.ToString(), rootPath };
             }
 
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/values/5
-        public string Get(int id)
-        {
-            return "value";
+            return fileList.Split(Convert.ToChar(","));
         }
 
         // POST api/values
@@ -73,14 +55,5 @@ namespace DocAPI.Controllers
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
-        // PUT api/values/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/values/5
-        public void Delete(int id)
-        {
-        }
     }
 }
